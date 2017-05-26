@@ -121,7 +121,7 @@ static int HandleGetHeating(const Value &data, Writer<StringBuffer> &response, C
     Heater* h = Printer::getHeater(data["id"].GetInt());
     if (h != nullptr) {
         response.Key("heating");
-        response.Double(h->getHeating());
+        response.Bool(h->getHeating());
     }
     else {
         cout << "HandleGetHeating-Error: unknown heater id" << endl;
@@ -202,6 +202,8 @@ HandleRequestResult RequestHandlers::HandleRequest(const char *request, StringBu
 
     writer.Key("status");
     writer.String((requestResult == HandleRequestResult::success) ? "success" : "error");
+
+    writer.EndObject();
 
     return requestResult;
 }
