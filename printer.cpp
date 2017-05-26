@@ -6,7 +6,7 @@ static std::vector<Heater> Heaters;
 
 void Printer::InitPrinter()
 {
-    Heaters.emplace_back(0, "Extruder 1");
+    Heaters.emplace_back(0, "Ext 1");
     Heaters.emplace_back(1, "Heatbed");
 }
 
