@@ -14,20 +14,26 @@ using namespace RequestHandlers;
 
 static int HandleSetTargetTemp(const Value &data, Writer<StringBuffer> &response, Client setter) {
     if (!data.HasMember("id")) {
-        std::cout << "HandleSetTargetTemp-Error: no id" << std::endl;
+        cout << "HandleSetTargetTemp-Error: no id" << endl;
         return -1;
     }
     
     if (!data.HasMember("temp")) {
-        std::cout << "HandleSetTargetTemp-Error: no temp" << std::endl;
+        cout << "HandleSetTargetTemp-Error: no temp" << endl;
         return -1;
     }
     
-    Heater* h = Printer::getHeater(data["id"].GetString());
-    if (h != nullptr)
-        h->setTargetTemp(data["temp"].GetFloat(), setter);
-    else {
-        std::cout << "HandleSetTargetTemp-Error: unknown heater id" << std::endl;
+    try {
+        Heater* h = Printer::getHeater(data["id"].GetInt());
+        if (h != nullptr)
+            h->setTargetTemp(data["temp"].GetFloat(), setter);
+        else {
+            cout << "HandleSetTargetTemp-Error: unknown heater id" << endl;
+            return -1;
+        }
+    }
+    catch (...) {
+        cout <<  "HandleSetTargetTemp-Error: json exception" << endl;
         return -1;
     }
     
@@ -36,17 +42,23 @@ static int HandleSetTargetTemp(const Value &data, Writer<StringBuffer> &response
 
 static int HandleGetTargetTemp(const Value &data, Writer<StringBuffer> &response, Client setter) {
     if (!data.HasMember("id")) {
-        std::cout << "HandleSetTargetTemp-Error: no id" << std::endl;
+        std::cout << "HandleSetTargetTemp-Error: no id" << endl;
         return -1;
     }
     
-    Heater* h = Printer::getHeater(data["id"].GetString());
-    if (h != nullptr) {
-        response.Key("temp");
-        response.Double(h->getTargetTemp());
+    try {
+        Heater* h = Printer::getHeater(data["id"].GetInt());
+        if (h != nullptr) {
+            response.Key("temp");
+            response.Double(h->getTargetTemp());
+        }
+        else {
+            cout << "HandleSetTargetTemp-Error: unknown heater id" << endl;
+            return -1;
+        }
     }
-    else {
-        std::cout << "HandleSetTargetTemp-Error: unknown heater id" << std::endl;
+    catch (...) {
+        cout << "HandleSetTargetTemp-Error: json exception";
         return -1;
     }
     
@@ -63,22 +75,28 @@ static int HandleGetHeaters(const Value &data, Writer<StringBuffer> &response, C
 }
 
 static int HandleGetHeater(const Value &data, Writer<StringBuffer> &response, Client setter) {
-    Heater* h = Printer::getHeater(data["id"].GetString());
-    if (h != nullptr) {
-        response.Key("displayName");
-        response.String(h->getDisplayName());
+    try {
+        Heater* h = Printer::getHeater(data["id"].GetInt());
+        if (h != nullptr) {
+            response.Key("displayName");
+            response.String(h->getDisplayName());
 
-        response.Key("isOn");
-        response.Bool(h->getHeating());
+            response.Key("isOn");
+            response.Bool(h->getHeating());
 
-        response.Key("target");
-        response.Double(h->getTargetTemp());
+            response.Key("target");
+            response.Double(h->getTargetTemp());
 
-        response.Key("current");
-        response.Double(h->getCurrentTemp());
+            response.Key("current");
+            response.Double(h->getCurrentTemp());
+        }
+        else {
+            cout << "HandleSetTargetTemp-Error: unknown heater id" << endl;
+            return -1;
+        }
     }
-    else {
-        std::cout << "HandleSetTargetTemp-Error: unknown heater id" << std::endl;
+    catch (...) {
+        cout << "HandleSetTargetTemp-Error: json exception" << endl;
         return -1;
     }
 
@@ -87,20 +105,26 @@ static int HandleGetHeater(const Value &data, Writer<StringBuffer> &response, Cl
 
 static int HandleSetHeating(const Value &data, Writer<StringBuffer> &response, Client setter) {
     if (!data.HasMember("id")) {
-        std::cout << "HandleSetHeating-Error: no id" << std::endl;
+        cout << "HandleSetHeating-Error: no id" << endl;
         return -1;
     }
 
     if (!data.HasMember("heating")) {
-        std::cout << "HandleSetHeating-Error: no heating" << std::endl;
+        cout << "HandleSetHeating-Error: no heating" << endl;
         return -1;
     }
 
-    Heater* h = Printer::getHeater(data["id"].GetString());
-    if (h != nullptr)
-        h->setHeating(data["heating"].GetBool(), setter);
-    else {
-        std::cout << "HandleSetTargetTemp-Error: unknown heater id" << std::endl;
+    try {
+        Heater* h = Printer::getHeater(data["id"].GetInt());
+        if (h != nullptr)
+            h->setHeating(data["heating"].GetBool(), setter);
+        else {
+            cout << "HandleSetTargetTemp-Error: unknown heater id" << endl;
+            return -1;
+        }
+    }
+    catch (...) {
+        cout << "HandleSetTargetTemp-Error: json exception" << endl;
         return -1;
     }
 
@@ -109,17 +133,23 @@ static int HandleSetHeating(const Value &data, Writer<StringBuffer> &response, C
 
 static int HandleGetHeating(const Value &data, Writer<StringBuffer> &response, Client setter) {
     if (!data.HasMember("id")) {
-        std::cout << "HandleGetHeating-Error: no id" << std::endl;
+        cout << "HandleGetHeating-Error: no id" << endl;
         return -1;
     }
 
-    Heater* h = Printer::getHeater(data["id"].GetString());
-    if (h != nullptr) {
-        response.Key("heating");
-        response.Double(h->getHeating());
+    try {
+        Heater* h = Printer::getHeater(data["id"].GetInt());
+        if (h != nullptr) {
+            response.Key("heating");
+            response.Double(h->getHeating());
+        }
+        else {
+            cout << "HandleGetHeating-Error: unknown heater id" << endl;
+            return -1;
+        }
     }
-    else {
-        std::cout << "HandleGetHeating-Error: unknown heater id" << std::endl;
+    catch (...) {
+        cout << "HandleGetHeating-Error: json exception" << endl;
         return -1;
     }
 

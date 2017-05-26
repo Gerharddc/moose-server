@@ -1,31 +1,26 @@
 #include "printer.h"
 
-#include <map>
 #include <iostream>
-#include "notify.h"
 
-static std::map<std::string, Heater> Heaters;
+static std::vector<Heater> Heaters;
 
 void Printer::InitPrinter()
 {
-    Heaters.emplace("Ext1", Heater("Ext1"));
-    Heaters.emplace("Ext2", Heater("Ext2"));
+    Heaters.emplace_back(0, "Extruder 1");
+    Heaters.emplace_back(1, "Heatbed");
 }
 
-Heater* Printer::getHeater(std::string id)
+Heater* Printer::getHeater(uint8_t id)
 {
-    auto itr = Heaters.find(id);
-    
-    if (itr != Heaters.end())
-        return &(itr->second);
-    else
+    if (id >= Heaters.size())
         return nullptr;
+
+    return &Heaters[id];
 }
 
 void Printer::getHeaterList(rapidjson::Writer<rapidjson::StringBuffer> &writer)
 {
-    for (auto pair : Heaters) {
-        writer.String(pair.first);
-    }
+    for (int i = 0; i < Heaters.size(); i++)
+        writer.Int(i);
 }
 

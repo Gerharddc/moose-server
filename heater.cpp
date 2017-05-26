@@ -8,7 +8,7 @@ void Heater::setTargetTemp(float temp, Client setter)
     {
         // TODO: send command to printer
     
-        Notify(SystemName, id_, "TargetTemp", setter);
+        Notify(SystemName, idString, "TargetTemp", setter);
     
         targetTemp_ = temp;
     }
@@ -20,7 +20,7 @@ void Heater::setHeating(bool heating, Client setter)
     {
         // TODO: send command to printer
     
-        Notify(SystemName, id_, "Heating", setter);
+        Notify(SystemName, idString, "Heating", setter);
     
         heating_ = heating;
     }
@@ -29,7 +29,7 @@ void Heater::setHeating(bool heating, Client setter)
 void Heater::setDisplayName(std::string displayName, Client setter) {
     if (displayName != displayName_)
     {
-        Notify(SystemName, id_, "DisplayName", setter);
+        Notify(SystemName, idString, "DisplayName", setter);
 
         displayName_ = displayName;
     }

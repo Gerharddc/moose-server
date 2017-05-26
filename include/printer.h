@@ -8,7 +8,7 @@ namespace Printer
 {
     extern void InitPrinter();
     
-    extern Heater* getHeater(std::string id);
+    extern Heater* getHeater(uint8_t id);
     extern void getHeaterList(rapidjson::Writer<rapidjson::StringBuffer> &writer);
 };
 

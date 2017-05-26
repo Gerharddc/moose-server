@@ -8,7 +8,8 @@ class Heater
 {
 private:
     float targetTemp_ = 100.0f;
-    std::string id_;
+    uint8_t id_;
+    std::string idString;
     bool heating_ = false;
     std::string displayName_;
     
@@ -25,8 +26,8 @@ public:
     
     const char* SystemName = "Heater";
     
-    Heater(std::string id) :
-        id_(id) {}
+    Heater(uint8_t id, std::string displayName) :
+        id_(id), displayName_(displayName), idString(std::to_string(id)) {}
 
     void setDisplayName(std::string displayName, Client setter);
     std::string getDisplayName() {
